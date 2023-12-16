@@ -1,0 +1,20 @@
+{
+  "name": "acceso-laboral",
+  "version": "1.0.0",
+  "description": "Proyecto de Redes y Comunicaciones",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiegoCedeno12/acceso-laboral.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DiegoCedeno12/acceso-laboral/issues"
+  },
+  "homepage": "https://github.com/DiegoCedeno12/acceso-laboral#readme"
+}
