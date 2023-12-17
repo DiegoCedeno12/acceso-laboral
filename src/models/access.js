@@ -1,6 +1,19 @@
 import { conexion } from '../database/database-conector.js';
 import { generateId } from "../utils/utils.js";
 
+export async function obtenerAccesos() {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM acceso;`;
+    conexion.query(sql, (error, resultados) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(JSON.stringify(resultados[0]));
+      }
+    });
+  });
+}
+
 export async function agregarAcceso(empleadoId, fecha_hora) {
   return new Promise(async (resolve, reject) => {
     const accesoId = generateId();
