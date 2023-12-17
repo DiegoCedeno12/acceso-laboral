@@ -7,7 +7,7 @@ export const signup = passport.authenticate('local-sing-up', {
 })
 
 export const renderSigninForm = (req, res) => {
-    res.render('users/login');
+    res.render('auth/login');
 }
 
 export const signin = passport.authenticate('local-sing-in', {
