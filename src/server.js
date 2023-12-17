@@ -11,9 +11,11 @@ import passport from 'passport';
 import './passport/auth.js';
 import userRouts from "./routes/User.routes.js";
 import employeeRouts from "./routes/employee.routes.js";
+import accessRouts from "./routes/access.routes.js";import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -39,6 +41,7 @@ app.use(passport.session());
 //Routs
 app.use(userRouts);
 app.use(employeeRouts);
+app.use(accessRouts);
 
 // static/files
 app.use( '/public' ,express.static(path.join(__dirname, 'public')));
