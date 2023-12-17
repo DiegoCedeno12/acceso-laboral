@@ -4,7 +4,7 @@ import { employee, deleteEmployee, homehtml, updateEmployee } from "../controlle
 
 const router = Router();
 
-router.get('/', homehtml);
+router.get('/', isAuthenticated, homehtml);
 
 router.get('/employee/:id', employee);
 
