@@ -1,6 +1,6 @@
 import passport from "passport";
 import LocalStrategy from 'passport-local';
-import { getByEmail, agregarUsuario, getById } from "../models/User.js";
+import { getByEmail, crearEmpleadoYUsuario, getById } from "../models/User.js";
 import bcrypt from 'bcrypt';
 
 passport.serializeUser((user, done) => {
@@ -29,9 +29,7 @@ passport.use('local-sing-up', new LocalStrategy({
                 console.log("El Correo Electrónico ya está en uso");
                 return done(null, false, { message: 'El Correo Electrónico ya está en uso' });
             } else {
-                // Puedes continuar con tu lógica aquí
-                const users = agregarUsuario(email, password, req.body.role);
-                console.log(users);
+                const users = crearEmpleadoYUsuario(email, password, req.body.role);
                 return users;
             }
         })
@@ -40,9 +38,8 @@ passport.use('local-sing-up', new LocalStrategy({
             done(null, user);
         })
         .catch(error => {
-            // Manejar errores aquí si es necesario
             console.error('Error al obtener usuario por email:', error.message);
-            done(error); // Asegúrate de llamar a done con el error
+            done(error);
         });
 }));
 
@@ -69,11 +66,10 @@ passport.use('local-sing-in', new LocalStrategy({
             email: existeemail['email'],
             role: existeemail['role']
         };
-        console.log("Todo lo que se enviará será ", data);
         console.log("Contraseña correcta");
         return done(null, data);
     } catch (error) {
-        console.error('Error al obtener usuario:', error.message);
+        console.error('Error al obtener usuario');
         return done(error);
     }
 }));

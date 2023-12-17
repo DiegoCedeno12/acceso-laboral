@@ -2,39 +2,49 @@ import { conexion } from '../database/database-conector.js';
 import { generateId } from "../utils/utils.js";
 import bcrypt from 'bcrypt';
 
+// Crea un nuevo empleado con información mínima
+export async function crearEmpleadoYUsuario(email, password, role) {
+  return new Promise(async (resolve, reject) => {
+    let nuevoId;
 
-// Crea un nuevo usuario
-export async function agregarUsuario(email, password, role) {
-  return new Promise((resolve, reject) => {
-    function intentarAgregarUsuario() {
-      let nuevoId = generateId();
-      getById(nuevoId)
-        .then(usuario => {
-          if (!usuario) {
-            const haspassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-            const sql = `INSERT INTO Usuario (usuario_id, email, password, role) VALUES (?, ?, ?, ?)`;
-            conexion.query(sql, [nuevoId, email, haspassword, role], (error, resultado) => {
-              if (error) {
-                reject(error);
+    const intentarAgregarUsuarioYEmpleado = async () => {
+      nuevoId = generateId();
+
+      const usuarioExistente = await getById(nuevoId);
+
+      if (!usuarioExistente) {
+        const haspassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+        const sqlUsuario = `INSERT INTO Usuario (usuario_id, email, password, role) VALUES (?, ?, ?, ?)`;
+        const sqlEmpleado = `INSERT INTO Empleado (empleado_id, usuario_id) VALUES (?, ?)`;
+        conexion.query(sqlUsuario, [nuevoId, email, haspassword, role], (errorUsuario, resultadoUsuario) => {
+          if (errorUsuario) {
+            intentarAgregarUsuarioYEmpleado();
+          } else {
+            conexion.query(sqlEmpleado, [nuevoId, nuevoId], (errorEmpleado, resultadoEmpleado) => {
+              if (errorEmpleado) {
+                intentarAgregarUsuarioYEmpleado();
               } else {
-                // Aquí resolvemos la Promesa con el usuario recién creado
-                resolve({ id: nuevoId, email, role });
+                resolve({
+                  usuario_id: nuevoId,
+                  email: email,
+                  role: role
+                });
               }
             });
-          } else {
-            intentarAgregarUsuario();
           }
-        })
-        .catch(error => reject(error));
-    }
-    intentarAgregarUsuario();
+        });
+      } else {
+        intentarAgregarUsuarioYEmpleado();
+      }
+    };
+    intentarAgregarUsuarioYEmpleado();
   });
 }
 
-
+// Consulta usuario por Id
 export async function getById(id) {
   return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM Usuario WHERE usuario_id = ?`;
+    const sql = `SELECT * FROM empleado WHERE usuario_id = ?`;
     conexion.query(sql, [id], (error, resultados) => {
       if (error) {
         reject(error);
@@ -45,7 +55,7 @@ export async function getById(id) {
   });
 }
 
-
+// Consulta usuario por email
 export async function getByEmail(email) {
   return new Promise((resolve, reject) => {
     const sql = `SELECT * FROM Usuario WHERE email = ?`;

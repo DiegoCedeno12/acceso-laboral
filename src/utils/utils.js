@@ -5,3 +5,10 @@ export function generateId() {
 
   return `${timestamp}${uniqueId}${identifier}`.substr(0, 14);
 }
+
+export function isAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+      return next();
+  }
+  res.redirect('/auth/sign-in');
+}
