@@ -4,7 +4,7 @@ import { getAccess, addAccess, getAccessEmployee } from "../controllers/access.c
 
 const router = Router();
 
-router.post('/access', addAccess);
+router.get('/access/add/:id', addAccess);
 
 router.get('/access/:id', getAccess);
 

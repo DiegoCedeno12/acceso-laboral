@@ -15,14 +15,18 @@ export const getAccess = async (req, res, next) => {
 
 export const addAccess = async (req, res, next) => {
   const empleadoId = req.params.id;
-
   try {
-    const fechaAcceso = moment(); // Get the current date and time
+    const fechaAcceso = moment().format('YYYY-MM-DD HH:mm:ss'); // Get the current date and time
     const resultado = await agregarAcceso(empleadoId, fechaAcceso);
-    res.status(200).json(resultado);
+    if (resultado) {
+      res.status(200).json(resultado);
+
+    } else {
+      res.status(500).json({ mensaje: 'Error al registrarse' });
+    }
   } catch (error) {
     console.error('Error al eliminar empleado:', error.message);
-    res.status(500).json({ mensaje: 'Error al eliminar empleado' });
+    res.status(500).json({ mensaje: 'Error al registrarse' });
   }
 }
 

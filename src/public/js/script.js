@@ -9,26 +9,26 @@ const actualizar = (id) => {
         .then(response => response.json())
         .then(data => {
             $.confirm({
-                title: 'Actualizar información del Empleado',                
-            icon: 'bi bi-pencil-square',
+                title: 'Actualizar información del Empleado',
+                icon: 'bi bi-pencil-square',
                 content: `
-                    <form class="form-information" style="padding: 5px 15px;" method="post" action="/employee/updated/${data.empleado.empleado_id}?_method=PUT">
+                    <form class="form-information" style="padding: 5px 15px;" method="post" action="/employee/updated/${data.data.empleado_id}?_method=PUT">
                     <input type="hidden" name="_method" value="PUT">
                         <div class="input">
                             <label for="nombres" class="label-input-form">Nombres:</label>
-                            <input type="text" class="input-form" id="nombres" name="nombre_u" value="${data.empleado ? data.empleado.nombre : ""}" />
+                            <input type="text" class="input-form" id="nombres" name="nombre_u" value="${data.data ? data.data.nombre : ""}" />
                         </div>
                         <div class="input">
                             <label for="apellido" class="label-input-form">Apellido:</label>
-                            <input type="text" class="input-form" id="apellido" name="apellido_u" value="${data.empleado ? data.empleado.apellido : ""}" />
+                            <input type="text" class="input-form" id="apellido" name="apellido_u" value="${data.data ? data.data.apellido : ""}" />
                         </div>
                         <div class="input">
                             <label for="cargo" class="label-input-form">Cargo:</label>
-                            <input type="text" class="input-form" id="cargo" name="cargo_u" value="${data.empleado ? data.empleado.cargo : ""}" />
+                            <input type="text" class="input-form" id="cargo" name="cargo_u" value="${data.data ? data.data.cargo : ""}" />
                         </div>
                         <div class="input">
                             <label for="telefono" class="label-input-form">Telefono:</label>
-                            <input type="text" class="input-form" id="telefono" name="telefono_u" value="${data.empleado ? data.empleado.telefono : ""}" />
+                            <input type="text" class="input-form" id="telefono" name="telefono_u" value="${data.data ? data.data.telefono : ""}" />
                         </div>
                         <div style="display: flex; justify-content:center; margin-top: 10px;">
                           <button type="submit" class="btn btn-actualizar">Actualizar</button>
@@ -83,7 +83,41 @@ const enviar = (id) => {
                 btnClass: 'btn-dark',
                 text: 'Enviar',
                 action: function () {
+                    $.alert({
+                        icon: "bi bi-exclamation-triangle-fill",
+                        title: 'Importante!',
+                        content: 'Coloque la Tarjeta sobre el Modulo RFID-RC522!',
+                        autoClose: 'aceptAction|20000',
+                        theme: 'light',
+                        type: 'dark',
+                        closeIcon: true,
+                        buttons: {
+                            aceptAction: {
+                                btnClass: 'btn-dark',
+                                text: 'Entendido',
+                                action: function () {
+        
+                                }
+                            },
+                            cancelAction: {
+                                text: 'Cancelar',
+                                isHidden: true,
+                                // Puedes agregar acciones adicionales al hacer clic en el botón "Cancelar"
+                            }
+                        }
+                    });
+                    $.ajax({
+                        url: 'http://127.0.0.1:1880/register-worker',
+                        type: 'POST',
+                        data: { employee_id: id },
+                        success: function(response) {
 
+                            console.log(response);
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    });
                 }
             },
             cancelAction: {

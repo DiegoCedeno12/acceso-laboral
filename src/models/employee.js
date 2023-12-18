@@ -7,6 +7,7 @@ export async function crearEmpleadoYUsuario(email, nombre, apellido, cargo, tele
   return new Promise(async (resolve, reject) => {
     let nuevoId;
     const role = 'EMPLEADO';
+    const contras = 'EMPLEADO';
 
     const intentarAgregarUsuarioYEmpleado = async () => {
       nuevoId = generateId();
@@ -16,21 +17,22 @@ export async function crearEmpleadoYUsuario(email, nombre, apellido, cargo, tele
       if (!usuarioExistente) {
         const userEmail = await getByEmail(email);
         if (!userEmail) {
-          const sqlUsuario = `INSERT INTO Usuario (usuario_id, email, role) VALUES (?, ?, ?)`;
-        const sqlEmpleado = `INSERT INTO Empleado (empleado_id, usuario_id, nombre, apellido, cargo, telefono) VALUES (?, ?, ?, ?, ?, ?)`;
-        conexion.query(sqlUsuario, [nuevoId, email, role], (errorUsuario, resultadoUsuario) => {
-          if (errorUsuario) {
-            reject({ mensaje: 'No se pudo registrar el empleado' });
-          } else {
-            conexion.query(sqlEmpleado, [nuevoId, nuevoId, nombre, apellido, cargo, telefono], (errorEmpleado, resultadoEmpleado) => {
-              if (errorEmpleado) {
-                reject({ mensaje: 'No se pudo registrar el empleado' });
-              } else {
-                resolve({ mensaje: 'Empleado registrado correctamente' });
-              }
-            });
-          }
-        });
+          const sqlUsuario = `INSERT INTO Usuario (usuario_id, email, password, role) VALUES (?, ?, ?, ?)`;
+          const sqlEmpleado = `INSERT INTO Empleado (empleado_id, usuario_id, nombre, apellido, cargo, telefono) VALUES (?, ?, ?, ?, ?, ?)`;
+          conexion.query(sqlUsuario, [nuevoId, email, contras, role], (errorUsuario, resultadoUsuario) => {
+            if (errorUsuario) {
+              reject({ mensaje: 'No se pudo registrar el usuario' });
+              console.log(errorUsuario);
+            } else {
+              conexion.query(sqlEmpleado, [nuevoId, nuevoId, nombre, apellido, cargo, telefono], (errorEmpleado, resultadoEmpleado) => {
+                if (errorEmpleado) {
+                  reject({ mensaje: 'No se pudo registrar el empleado' });
+                } else {
+                  resolve({ mensaje: 'Empleado registrado correctamente' });
+                }
+              });
+            }
+          });
         } else {
           reject({ mensaje: 'Ya existe un empleado con ese correo' });
         }
@@ -43,7 +45,7 @@ export async function crearEmpleadoYUsuario(email, nombre, apellido, cargo, tele
 }
 
 // obtiene empleados
-export async function obtenerEmpleados(req) {
+export async function obtenerEmpleados() {
   return new Promise((resolve, reject) => {
     const sql = `
       SELECT e.empleado_id, e.nombre, e.apellido, e.telefono, e.cargo

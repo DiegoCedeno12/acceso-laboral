@@ -53,9 +53,17 @@ export const updateEmployee = async (req, res, next) => {
 }
 
 export const employee = async (req, res, next) => {
-    const data = await getById(req.params.id);
-    const empleado = JSON.parse(data);
-    res.send({ empleado });
+    try {
+        const data = await getById(req.params.id);
+        if (data) {
+            const empleado = JSON.parse(data);
+            res.status(200).json({ data: empleado })
+        } else {
+            res.status(500).json({ mensaje: 'Error al obtener informacion del empleado' });
+        }
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener informacion del empleado' });
+    }
 }
 
 export const deleteEmployee = async (req, res, next) => {

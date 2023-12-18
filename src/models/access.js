@@ -23,7 +23,7 @@ export async function agregarAcceso(empleadoId, fecha_hora) {
         const sqlAcceso = `INSERT INTO Acceso (acceso_id, empleado_id, fecha_hora) VALUES (?, ?, ?)`;
         conexion.query(sqlAcceso, [accesoId, empleadoId, fecha_hora], (errorAcceso, resultadoAcceso) => {
           if (errorAcceso) {
-            intentarAgregarAcceso();
+            reject(errorAcceso);
           } else {
             resolve({
               acceso_id: accesoId,
