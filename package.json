@@ -21,6 +21,7 @@
   "homepage": "https://github.com/DiegoCedeno12/acceso-laboral#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bootstrap-icons": "^1.11.2",
     "connect-flash": "^0.1.1",
     "dotenv": "^16.3.1",
     "ejs-mate": "^4.0.0",

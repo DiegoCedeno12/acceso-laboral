@@ -16,7 +16,7 @@ CREATE TABLE empleado (
   nombre varchar(45),
   apellido varchar(45),  
   cargo varchar(45),
-  telf varchar(45),
+  telefono varchar(45),
   PRIMARY KEY (empleado_id),
   KEY FK_empleado_1 (usuario_id),
   CONSTRAINT FK_empleado_1 FOREIGN KEY (usuario_id) REFERENCES usuario (usuario_id) ON DELETE CASCADE ON UPDATE CASCADE

@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { isAuthenticated } from "../utils/utils.js";
-import { employee, deleteEmployee, homehtml, updateEmployee } from "../controllers/employee.controller.js";
+import { employee, deleteEmployee, homehtml, updateEmployee, addEmployee } from "../controllers/employee.controller.js";
 
 const router = Router();
 
-router.get('/', isAuthenticated, homehtml);
+router.get('/', homehtml);
+
+router.post('/employee/add', addEmployee);
 
 router.get('/employee/:id', employee);
 

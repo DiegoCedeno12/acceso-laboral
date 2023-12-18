@@ -1,11 +1,25 @@
-import { obtenerEmpleados, actualizarEmpleado, eliminarEmpleado, getById } from "../models/employee.js";
+import { obtenerEmpleados, actualizarEmpleado, eliminarEmpleado, getById, crearEmpleadoYUsuario } from "../models/employee.js";
 
 export const homehtml = async (req, res) => {
-    const empleados = await obtenerEmpleados();
-    res.send({ empleados: empleados });
-    //res.render("index", {families, PageTitle: 'Inicio'});
+    const data = await obtenerEmpleados();
+    const empleados = JSON.parse(data);
+    res.render("home", {empleados});
 
 }
+
+// Controlador
+export const addEmployee = async (req, res, next) => {
+    try {
+        console.log(req.body.email, req.body.nombre, req.body.apellido, req.body.cargo, req.body.telefono);
+      const empleado = await crearEmpleadoYUsuario(req.body.email, req.body.nombre, req.body.apellido, req.body.cargo, req.body.telefono);
+      console.log(empleado);
+      res.render("home", { empleado });
+    } catch (error) {
+      console.error('Error al agregar empleado:', error);
+      res.status(500).send('Error interno del servidor');
+    }
+  };
+  
 
 export const updateEmployee = async (req, res, next) => {
     const empleadoId = req.params.id;

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Inicio</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="/public/css/styles-header.css" />
+  <link rel="stylesheet" href="/public/css/jquery-confirm/jquery-confirm.min.css" />
+  <link rel="stylesheet" href="../public/css/dataTables.min.css" />
+
+
+
+  <!-- <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Athiti:wght@500&family=Play:wght@700&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <div class="background"></div>
+  <div class="container">
+    <div class="glass effect">
+      <header class="header">
+        <div class="contenido-header">
+          <div class="contenedor-logo">
+            <img class="logo" src="/public/img/logo-CAN-removebg-preview.png" alt="" />
+          </div>
+
+          <h1>Control de Acceso</h1>
+          <div class="contenedor-user-count">
+            <a href="/auth/sign-out" class="user-count" style="padding: 10px;"><i class="bi bi-box-arrow-left"></i></a>
+          </div>
+        </div>
+      </header>
+      <div class="contenido">
+        <div class="information">
+          <div class="text py-2 fw-bolder">
+            <h4 class="text-center" style="font-size: 19px;"><strong>Ingrese los datos del empleado</strong></h4>
+          </div>
+          <form class="form-information" id="form-information" method="post" action="/employee/add">
+            <div class="input">
+              <label for="email" class="label-input-form">Correo Electronico:</label>
+              <input type="email" class="input-form" id="email" name="email" aria-describedby="emailHelp" />
+            </div>
+            <div class="input">
+              <label for="nombres" class="label-input-form">Nombres:</label>
+              <input type="text" class="input-form" id="nombres" name="nombre" aria-describedby="emailHelp" />
+            </div>
+            <div class="input">
+              <label for="apellido" class="label-input-form">Apellido:</label>
+              <input type="text" class="input-form" id="apellido" name="apellido" />
+            </div>
+            <div class="input">
+              <label for="cargo" class="label-input-form">Cargo:</label>
+              <input type="text" class="input-form" id="cargo" name="cargo" />
+            </div>
+            <div class="input">
+              <label for="telefono" class="label-input-form">Telefono:</label>
+              <input type="text" class="input-form" id="telefono" name="telefono" />
+            </div>
+            <div style="display: flex; justify-content:center; margin-top: 10px;">
+              <button type="submit" class="btn btn-enviar">Enviar</button>
+            </div>
+          </form>
+        </div>
+        <div class="table">
+          <div class="text">
+            <h4><strong>Listado de Empleados</strong></h4>
+          </div>
+
+          <div class="table-information">
+            <table class="table-bordered table-spaced table-shadow" id="empleados">
+              <thead>
+                
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Cargo</th>
+                  <th>Telefono</th>
+                  <th class="text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% empleados.forEach(function(empleado) { %>
+                <tr>
+                  <td><%= empleado.empleado_id %></td>
+                  <td><%= empleado.nombre %></td>
+                  <td><%= empleado.apellido %></td>
+                  <td><%= empleado.cargo %></td>
+                  <td><%= empleado.telefono %></td>
+                  <td class="acciones">
+                    <button class="btn btn-edit" onclick="actualizar('<%= empleado.empleado_id %>')">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class="btn btn-nfc" onclick="enviar('<%= empleado.empleado_id %>')">
+                      <i class="bi bi-postcard"></i>
+                    </button>
+                    <button class="btn btn-delete" onclick="eliminar('<%= empleado.empleado_id %>')">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/public/js/jquery-3.7.1.min.js"></script>
+  <script src="/public/js/dataTables.min.js"></script>
+  <script src="/public/js/jquery-confirm/jquery-confirm.min.js"></script>
+  <script src="/public/js/scripts-modal.js"></script>
+
+</body>
+
+</html>

@@ -12,6 +12,6 @@ router.get("/auth/sign-in", renderSigninForm);
 
 router.post("/auth/sign-in", signin);
 
-router.get("/auth/logout", isAuthenticated, logout);
+router.get("/auth/sign-out", isAuthenticated, logout);
 
 export default router;
