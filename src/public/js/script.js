@@ -9,7 +9,8 @@ const actualizar = (id) => {
         .then(response => response.json())
         .then(data => {
             $.confirm({
-                title: 'Actualizar información del Empleado',
+                title: 'Actualizar información del Empleado',                
+            icon: 'bi bi-pencil-square',
                 content: `
                     <form class="form-information" style="padding: 5px 15px;" method="post" action="/employee/updated/${data.empleado.empleado_id}?_method=PUT">
                     <input type="hidden" name="_method" value="PUT">
@@ -68,9 +69,9 @@ const actualizar = (id) => {
 
 
 const enviar = (id) => {
-    console.log(id);
     $.confirm({
         title: '¿Registrar información a tarjeta?',
+        icon: 'bi bi-postcard',
         content: 'Estás seguro que deseas registrar el empleado.',
         autoClose: 'cancelAction|10000',
         theme: 'light',
@@ -93,9 +94,9 @@ const enviar = (id) => {
 }
 
 const eliminar = (id) => {
-    console.log(id);
     $.confirm({
         title: '¿Eliminar Empleado?',
+        icon: 'bi bi-trash',
         content: 'Estás seguro que deseas eliminarlo.',
         autoClose: 'cancelAction|10000',
         theme: 'light',

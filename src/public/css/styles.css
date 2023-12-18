@@ -1,9 +1,9 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 
-    
+
     font-family: 'Oswald', sans-serif;
 
 
@@ -14,7 +14,7 @@
     font-family: 'Oswald', sans-serif !important;
 }
 
-i{
+i {
     margin-left: 5px;
 }
 
@@ -29,6 +29,11 @@ i{
     color: #FFF;
 }
 
+.jconfirm .jconfirm-box.jconfirm-type-dark .jconfirm-title-c .jconfirm-icon-c,
+.jconfirm .jconfirm-box.jconfirm-type-dark .jconfirm-title-c .jconfirm-icon-c {
+    color: #333 !important;
+}
+
 body {
     display: flex;
     align-items: center;
@@ -40,7 +45,7 @@ body {
 
 }
 
-.container-form{
+.container-form {
     display: flex;
     width: 60%;
     height: 500px;
@@ -49,42 +54,46 @@ body {
     transition: all is ease;
     margin: 10px;
 }
-.information{
+
+.information {
     width: 50%;
     display: flex;
     align-items: center;
     text-align: center;
-    background: linear-gradient(to right, #6096B4 98%,#93BFCF);
+    background: linear-gradient(to right, #6096B4 98%, #93BFCF);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     box-shadow: 200px 0px 5px rgba(0, 0, 0, 0.1);
 
 }
-.info-childs input[type="button"]{
-    
+
+.info-childs input[type="button"] {
+
     font-family: 'Oswald', sans-serif;
 }
 
-.info-childs{
-    width: 100% ;
+.info-childs {
+    width: 100%;
     padding: 0 30px;
 }
-.info-childs h2{
+
+.info-childs h2 {
     font-size: 2.5rem;
     color: #333;
     text-shadow: 5px 3px 2px rgba(0, 0, 0, 0.1);
 }
-.info-childs p{
+
+.info-childs p {
     margin: 15px 0;
     color: #555;
     font-size: 1.2rem;
     font-family: 'Montserrat', sans-serif;
 }
 
-.info-childs input{
-    
+.info-childs input {
+
     background-color: #fff;
-    outline:  none;
+    outline: none;
     border: solid 2px #fff;
     border-radius: 20px;
     padding: 10px 20px;
@@ -94,15 +103,15 @@ body {
 
 }
 
-.info-childs input:hover{
-    background-color: #333 ;
+.info-childs input:hover {
+    background-color: #333;
     color: #fff;
     border: solid 2px #333;
 
-    box-shadow: 0 5px 7px rgba(0,0,0,.1);
+    box-shadow: 0 5px 7px rgba(0, 0, 0, .1);
 }
 
-.form-information{
+.form-information {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -111,40 +120,44 @@ body {
     background-color: #ffffff;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-   
-    
-    
-}
-.form-information .form-information-child{
-width: 85%;
-    
-    
+
+
+
 }
 
-.form-information-child{
+.form-information .form-information-child {
+    width: 85%;
+
+
+}
+
+.form-information-child {
     padding: 0 30px;
     padding-left: 0;
     padding-right: 0;
 
-    
+
 }
-.form-information-child h2{
+
+.form-information-child h2 {
     color: #6096B4;
     font-size: 2rem;
     text-shadow: 5px 3px 2px rgba(0, 0, 0, 0.1);
 }
-.form-information-child p{
+
+.form-information-child p {
     color: #333;
 }
 
-.form{
+.form {
     margin-top: 30px;
-    
-    
+
+
 
 }
+
 .form label {
-    
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -152,11 +165,11 @@ width: 85%;
     border-radius: 20px;
     padding: 0 10px;
     background-color: #fff;
-    box-shadow: 0 5px 7px rgba(0,0,0,.1);
-    
+    box-shadow: 0 5px 7px rgba(0, 0, 0, .1);
+
 }
 
-.form label input{
+.form label input {
     font-family: 'Montserrat', sans-serif;
     width: 100%;
     padding: 10px;
@@ -165,33 +178,36 @@ width: 85%;
     outline: none;
     border-radius: 20px;
 }
-.form input[type="submit"]{
+
+.form input[type="submit"] {
     font-family: 'Montserrat', sans-serif;
     background-color: #555;
     color: #fff;
-    border-radius: 20px ;
+    border-radius: 20px;
     border: none;
     padding: 10px 15px;
     cursor: pointer;
     margin-top: 10px;
-    box-shadow: 0 5px 5px rgba(0,0,0,.1);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .1);
 }
 
-.form input[type="submit"]:hover{
+.form input[type="submit"]:hover {
     background-color: #6096B4;
 }
 
-.hide1{
+.hide1 {
     position: absolute;
     transform: translateX(-400%);
     transition: all 1s ease-in-out;
 }
-.hide2{
+
+.hide2 {
     position: absolute;
     transform: translateX(300%);
     transition: all 1s ease-in-out;
 }
-.hide3{
+
+.hide3 {
     position: absolute;
     transform: translateX(0);
     transition: all 1s ease-in-out;
@@ -201,31 +217,31 @@ width: 85%;
 
 
 @media screen and (max-width: 780px) {
-    html{
+    html {
         font-size: 12px;
     }
-    
-    .container-form{
+
+    .container-form {
         flex-direction: column;
         height: auto;
     }
 
-    .information{
+    .information {
         width: 100%;
         padding: 20px;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         border-bottom-left-radius: 0px;
         box-shadow: none;
-        background: linear-gradient(to bottom, #6096B4 98%,#93BFCF);
+        background: linear-gradient(to bottom, #6096B4 98%, #93BFCF);
     }
 
-    .form-information{
+    .form-information {
         width: 100%;
         padding: 20px;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
         border-top-right-radius: 0px;
-        
+
     }
 }

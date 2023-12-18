@@ -18,13 +18,11 @@ export async function crearEmpleadoYUsuario(email, password, role) {
         const sqlEmpleado = `INSERT INTO Empleado (empleado_id, usuario_id) VALUES (?, ?)`;
         conexion.query(sqlUsuario, [nuevoId, email, haspassword, role], (errorUsuario, resultadoUsuario) => {
           if (errorUsuario) {
-            req.flash('error_msg', `No se pudo registrar el usuario`);
-            reject(errorUsuario);
+            reject({ mensaje: 'No se pudo registrar el usuario' });
           } else {
             conexion.query(sqlEmpleado, [nuevoId, nuevoId], (errorEmpleado, resultadoEmpleado) => {
               if (errorEmpleado) {
-                req.flash('error_msg', `No se pudo registrar el usuario`);
-                reject(errorEmpleado);
+                reject({ mensaje: 'No se pudo registrar el empleado' });
               } else {
                 resolve({
                   usuario_id: nuevoId,

@@ -132,7 +132,8 @@
   <% if (success_msg.length> 0) { %>
     <script>
       $.confirm({
-        title: 'Aviso!',
+        title: 'Operación exitosa!',
+        icon: 'bi bi-check-circle-fill',
         content: '<%= success_msg %>',
         theme: 'light',
         type: 'dark',
@@ -156,7 +157,8 @@
       <% if (error_msg.length> 0) { %>
         <script>
           $.confirm({
-            title: 'Aviso!',
+            title: 'Algo salió mal!',
+            icon: 'bi bi-exclamation-triangle-fill',
             content: '<%= error_msg %>',
             theme: 'light',
             type: 'dark',

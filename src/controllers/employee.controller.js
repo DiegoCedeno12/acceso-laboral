@@ -10,9 +10,18 @@ export const homehtml = async (req, res) => {
 // Controlador
 export const addEmployee = async (req, res, next) => {
     try {
-        console.log(req.body.email, req.body.nombre, req.body.apellido, req.body.cargo, req.body.telefono);
-        await crearEmpleadoYUsuario(req.body.email, req.body.nombre, req.body.apellido, req.body.cargo, req.body.telefono);
-        req.flash('success_msg', `Se registró el empleado con éxito`);
+        let errorMessage;
+        await crearEmpleadoYUsuario(req.body.email, req.body.nombre, req.body.apellido, req.body.cargo, req.body.telefono)
+            .catch(error => {
+                errorMessage = error.mensaje;
+            });
+
+        if (errorMessage) {
+            console.error('Error al agregar empleado:', errorMessage);
+            req.flash('error_msg', errorMessage);
+        } else {
+            req.flash('success_msg', `Se registró el empleado con éxito`);
+        }
         return res.redirect('/');
     } catch (error) {
         console.error('Error al agregar empleado:', error);
@@ -21,14 +30,22 @@ export const addEmployee = async (req, res, next) => {
 };
 
 
+
 export const updateEmployee = async (req, res, next) => {
     const empleadoId = req.params.id;
     const { nombre_u, apellido_u, telefono_u, cargo_u } = req.body;
     try {
-        await actualizarEmpleado(empleadoId, nombre_u, apellido_u, telefono_u, cargo_u);
-        req.flash('success_msg', `Se actualizó el empleado con éxito`);
+        let errorMessage;
+        await actualizarEmpleado(empleadoId, nombre_u, apellido_u, telefono_u, cargo_u)
+            .catch(error => {
+                errorMessage = error.mensaje;
+            });
+        if (errorMessage) {
+            req.flash('error_msg', errorMessage);
+        } else {
+            req.flash('success_msg', `Se actualizó el empleado con éxito`);
+        }
         return res.redirect('/');
-
     } catch (error) {
         console.error('Error al eliminar empleado:', error.message);
         res.status(500).json({ mensaje: 'Error al eliminar empleado' });
@@ -44,8 +61,16 @@ export const employee = async (req, res, next) => {
 export const deleteEmployee = async (req, res, next) => {
     const empleadoId = req.params.id;
     try {
-        await eliminarEmpleado(empleadoId);
-        req.flash('success_msg', `Se eliminó el empleado con éxito`);
+        let errorMessage;
+        await eliminarEmpleado(empleadoId)
+            .catch(error => {
+                errorMessage = error.mensaje;
+            });
+        if (errorMessage) {
+            req.flash('error_msg', errorMessage);
+        } else {
+            req.flash('success_msg', `Se eliminó el empleado con éxito`);
+        }
         return res.redirect('/');
     } catch (error) {
         console.error('Error al eliminar empleado:', error.message);
