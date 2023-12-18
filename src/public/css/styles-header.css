@@ -151,11 +151,24 @@
     height: 80%;
 }
 
+.btn-actualizar {
+    border: solid #333 !important;
+    background-color: #333 !important;
+    color: #fff !important;
+    border-radius: 5px !important;
+    font-size: 13px !important;
+    width: 7rem;
+}
+
 .input>.label-input-form {
     display: flex;
     padding-bottom: 5px;
     margin-top: 5px;
 
+}
+
+label {
+    font-weight: 500 !important;
 }
 
 .btn {

@@ -1,5 +1,6 @@
 import { conexion } from '../database/database-conector.js';
 import { generateId } from '../utils/utils.js';
+import { getByEmail } from './User.js';
 
 // crear un empleado
 export async function crearEmpleadoYUsuario(email, nombre, apellido, cargo, telefono) {
@@ -13,21 +14,28 @@ export async function crearEmpleadoYUsuario(email, nombre, apellido, cargo, tele
       const usuarioExistente = await getById(nuevoId);
 
       if (!usuarioExistente) {
-        const sqlUsuario = `INSERT INTO Usuario (usuario_id, email, role) VALUES (?, ?, ?)`;
+        const userEmail = await getByEmail(email);
+        if (!userEmail) {
+          const sqlUsuario = `INSERT INTO Usuario (usuario_id, email, role) VALUES (?, ?, ?)`;
         const sqlEmpleado = `INSERT INTO Empleado (empleado_id, usuario_id, nombre, apellido, cargo, telefono) VALUES (?, ?, ?, ?, ?, ?)`;
         conexion.query(sqlUsuario, [nuevoId, email, role], (errorUsuario, resultadoUsuario) => {
           if (errorUsuario) {
-            intentarAgregarUsuarioYEmpleado();
+            req.flash('error_msg', `No se pudo registrar el empleado`);
+            reject(errorUsuario);
           } else {
             conexion.query(sqlEmpleado, [nuevoId, nuevoId, nombre, apellido, cargo, telefono], (errorEmpleado, resultadoEmpleado) => {
               if (errorEmpleado) {
-                intentarAgregarUsuarioYEmpleado();
+                req.flash('error_msg', `No se pudo registrar el empleado`);
+                reject(errorEmpleado);
               } else {
                 resolve({ mensaje: 'Empleado registrado correctamente' });
               }
             });
           }
         });
+        } else {
+          req.flash('error_msg', `Ya existe un empleado con ese correo`);
+        }
       } else {
         intentarAgregarUsuarioYEmpleado();
       }
@@ -47,6 +55,7 @@ export async function obtenerEmpleados() {
     `;
     conexion.query(sql, (error, resultados) => {
       if (error) {
+        req.flash('error_msg', `No se pudo obtener los empleados`);
         reject(error);
       } else {
         resolve(JSON.stringify(resultados));
@@ -61,10 +70,10 @@ export async function actualizarEmpleado(id, nombre, apellido, telf, cargo) {
     const sql = `UPDATE empleado SET nombre = ?, apellido = ?, telefono = ?, cargo = ? WHERE usuario_id = ?`;
     conexion.query(sql, [nombre, apellido, telf, cargo, id], (error, resultado) => {
       if (error) {
+        req.flash('error_msg', `No se pudo actualizar el empleado`);
         reject(error);
       } else {
-        // Aquí resolvemos la Promesa con la información del empleado actualizado
-        console.log(resultado[0]);
+        console.log("Se ha podido dar una solucion");
         resolve({ mensaje: 'Empleado actualizado correctamente' });
       }
     });
@@ -77,6 +86,7 @@ export async function getById(id) {
     const sql = `SELECT * FROM empleado WHERE empleado_id = ?`;
     conexion.query(sql, [id], (error, resultados) => {
       if (error) {
+        req.flash('error_msg', `No se pudo obtener el empleado`);
         reject(error);
       } else {
         resolve(JSON.stringify(resultados[0]));
@@ -91,6 +101,7 @@ export async function eliminarEmpleado(id) {
     const sql = `DELETE FROM empleado WHERE usuario_id = ?`;
     conexion.query(sql, [id], (error, resultado) => {
       if (error) {
+        req.flash('error_msg', `No se pudo eliminar el empleado`);
         reject(error);
       } else {
         const sql = `DELETE FROM Usuario WHERE usuario_id = ?`;

@@ -1,16 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesion</title>
     <link rel="stylesheet" href="/public/css/styles.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/public/css/jquery-confirm/jquery-confirm.min.css" />
+
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500&family=IBM+Plex+Mono:ital,wght@1,300&family=Montserrat:wght@500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500&family=IBM+Plex+Mono:ital,wght@1,300&family=Montserrat:wght@500;600;700&family=Oswald:wght@500;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
 
 
@@ -21,26 +26,56 @@
                 <h2>Bienvenido Nuevamente!!</h2>
                 <p>Es un gusto tenerte de vuelta.</p>
             </div>
-            
+
         </div>
         <div class="form-information">
             <div class="form-information-child">
                 <h2>Inicia sesión</h2>
                 <form class="form" action="/auth/sign-in" method="post">
-                    <label for="">
-                        <i class='bx bx-envelope'></i>
+                    <label for="email">
+                        <i class="bi bi-envelope"></i>
                         <input type="email" name="email" id="email" placeholder="Ingrese su email">
                     </label>
-                    <label for="">
-                        <i class='bx bx-lock-alt' ></i>
-                        <input type="password" name="password" id="password" placeholder="Ingrese su contraseña">
+                    <label for="password">
+                        <i class="bi bi-key"></i>
+                        <input type="password" name="password" id="password" placeholder="Ingrese su contraseña"
+                            autocomplete="false">
                     </label>
                     <input type="submit" value="Iniciar Sesion">
                 </form>
             </div>
         </div>
     </div>
-
-    <script src="src/script.js"></script>
+    <script src="/public/js/jquery-3.7.1.min.js"></script>
+    <script src="/public/js/jquery-confirm/jquery-confirm.min.js"></script>
 </body>
+<% if (error_msg.length> 0) { %>
+    <script>
+        $.confirm({
+            title: 'Aviso!',
+            content: '<%= error_msg %>',
+            theme: 'light',
+            type: 'dark',
+            useBootstrap: false,
+            boxWidth: '30%',
+            autoClose: 'cancelAction|3000',
+            closeIcon: true,
+            typeAnimated: true,
+            buttons: {
+                sendAction: {
+                    btnClass: 'btn-dark',
+                    text: 'Aceptar',
+                    action: function () {
+
+                    }
+                },
+                cancelAction: {
+                    isHidden: true,
+                    text: 'Cancelar',
+                }
+            }
+        });
+    </script>
+    <%} %>
+
 </html>

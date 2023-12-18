@@ -53,12 +53,12 @@ passport.use('local-sing-in', new LocalStrategy({
         const existeemail = await getByEmail(email);
 
         if (!existeemail) {
-            console.log("El usuario no existe");
+            req.flash('error_msg', `Usuario no encontrado`);
             return done(null, false, { message: 'Usuario no encontrado' });
         }
 
         if (!bcrypt.compareSync(password, existeemail['password'])) {
-            console.log("Contraseña incorrecta");
+            req.flash('error_msg', `Contraseña incorrecta`);
             return done(null, false, { message: 'Contraseña incorrecta' });
         }
         let data = {
@@ -66,7 +66,6 @@ passport.use('local-sing-in', new LocalStrategy({
             email: existeemail['email'],
             role: existeemail['role']
         };
-        console.log("Contraseña correcta");
         return done(null, data);
     } catch (error) {
         console.error('Error al obtener usuario');

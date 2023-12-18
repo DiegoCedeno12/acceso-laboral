@@ -10,6 +10,25 @@
 
 }
 
+.jconfirm {
+    font-family: 'Oswald', sans-serif !important;
+}
+
+i{
+    margin-left: 5px;
+}
+
+.jconfirm .jconfirm-box.jconfirm-type-dark {
+    border-top: solid 7px #333 !important;
+    -webkit-animation-name: type-dark;
+    animation-name: type-dark;
+}
+
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-dark {
+    background-color: #333 !important;
+    color: #FFF;
+}
+
 body {
     display: flex;
     align-items: center;

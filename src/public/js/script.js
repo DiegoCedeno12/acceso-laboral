@@ -1,51 +1,69 @@
-
 const actualizar = (id) => {
-    console.log(id);
-    // Realizar solicitud GET al servidor usando fetch
     fetch(`/employee/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        // Puedes incluir credenciales si es necesario
         credentials: 'same-origin',
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => {
-        // Manejar errores de red u otros errores
-        console.error('Error de red:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            $.confirm({
+                title: 'Actualizar información del Empleado',
+                content: `
+                    <form class="form-information" style="padding: 5px 15px;" method="post" action="/employee/updated/${data.empleado.empleado_id}?_method=PUT">
+                    <input type="hidden" name="_method" value="PUT">
+                        <div class="input">
+                            <label for="nombres" class="label-input-form">Nombres:</label>
+                            <input type="text" class="input-form" id="nombres" name="nombre_u" value="${data.empleado ? data.empleado.nombre : ""}" />
+                        </div>
+                        <div class="input">
+                            <label for="apellido" class="label-input-form">Apellido:</label>
+                            <input type="text" class="input-form" id="apellido" name="apellido_u" value="${data.empleado ? data.empleado.apellido : ""}" />
+                        </div>
+                        <div class="input">
+                            <label for="cargo" class="label-input-form">Cargo:</label>
+                            <input type="text" class="input-form" id="cargo" name="cargo_u" value="${data.empleado ? data.empleado.cargo : ""}" />
+                        </div>
+                        <div class="input">
+                            <label for="telefono" class="label-input-form">Telefono:</label>
+                            <input type="text" class="input-form" id="telefono" name="telefono_u" value="${data.empleado ? data.empleado.telefono : ""}" />
+                        </div>
+                        <div style="display: flex; justify-content:center; margin-top: 10px;">
+                          <button type="submit" class="btn btn-actualizar">Actualizar</button>
+                        </div>
+                    </form>
+                `,
+                theme: 'light',
+                type: 'dark',
+                useBootstrap: false,
+                boxWidth: '500px',
+                closeIcon: true,
+                typeAnimated: true,
+                buttons: {
+                    updateAction: {
+                        btnClass: 'btn-dark',
+                        text: 'Actualizar',
+                        isHidden: true,
+                        action: function () {
 
-    $.confirm({
-        title: 'Actualizar información del Empleado',
-        content: `<form action="" class="formName">
-            <div class="form-group">
-                <label>Enter something here</label>
-                <input type="text" placeholder="Your name" class="name form-control" required />
-            </div>
-        </form>`,
-        autoClose: 'cancelAction|10000',
-        theme: 'light',
-        type: 'dark',
-        closeIcon: true,
-        typeAnimated: true,
-        buttons: {
-            updateAction: {
-                btnClass: 'btn-dark',
-                text: 'Salir',
-                action: function () {
-                    // Acciones al hacer clic en el botón "Salir"
+                        }
+                    },
+                    cancelAction: {
+                        text: 'Cancelar',
+                        isHidden: true,
+                        // Puedes agregar acciones adicionales al hacer clic en el botón "Cancelar"
+                    }
                 }
-            },
-            cancelAction: {
-                text: 'Cancelar',
-                // Puedes agregar acciones adicionales al hacer clic en el botón "Cancelar"
-            }
-        }
-    });
+
+            });
+        })
+        .catch(error => {
+            // Manejar errores de red u otros errores
+            console.error('Error de red:', error);
+        });
+
+
 }
 
 
@@ -62,7 +80,7 @@ const enviar = (id) => {
         buttons: {
             sendAction: {
                 btnClass: 'btn-dark',
-                text: 'Salir',
+                text: 'Enviar',
                 action: function () {
 
                 }
@@ -87,9 +105,9 @@ const eliminar = (id) => {
         buttons: {
             deleteAction: {
                 btnClass: 'btn-red',
-                text: 'Salir',
+                text: 'Eliminar',
                 action: function () {
-
+                    window.location.href = `/employee/delete/${id}`;
                 }
             },
             cancelAction: {
