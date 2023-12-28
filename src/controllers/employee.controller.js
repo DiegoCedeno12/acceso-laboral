@@ -7,6 +7,10 @@ export const homehtml = async (req, res) => {
 
 }
 
+export const renderdashboard = (req, res) => {
+    res.render("dashboard");
+};
+
 // Controlador
 export const addEmployee = async (req, res, next) => {
     try {
