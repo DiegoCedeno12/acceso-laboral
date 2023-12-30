@@ -1,47 +1,567 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Chart.js example</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Balkan Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/public/css/styles-header.css" />
+  <link rel="stylesheet" href="/public/css/jquery-confirm/jquery-confirm.min.css" />
+  <link rel="stylesheet" href="../public/css/dataTables.min.css" />
+
+
+
+  <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Athiti:wght@500&family=Play:wght@700&display=swap"
+    rel="stylesheet" />
 </head>
+<style>
+  body {
+    background-color: #eff4f7;
+    color: #777;
+    font-family: 'Titillium Web', Arial, Helvetica, sans-serif
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong {
+    font-weight: 600;
+  }
+
+  .content-area {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  #topnav {
+    background: #37474f;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .admin-menu {
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    flex: 0.05 0 0;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 0 0;
+  }
+
+  .logo-t {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #26c6da;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 50%;
+    margin-right: 15px;
+    margin-left: 5px;
+    padding-left: 3px;
+  }
+
+  .search-bar {
+    flex: 2 0 0;
+    align-items: center;
+    justify-content: space-between;
+    background: #232e34;
+    overflow: hidden;
+    display: flex;
+    height: 36px;
+    border-radius: 35px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .search-bar-dropdown {
+    flex: 1 0 0;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 18px;
+    margin-right: 15px;
+    background: #2c393f;
+
+  }
+
+  .search-bar-input {
+    flex: 2 0 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 18px;
+    line-height: 40px;
+    align-items: center;
+  }
+
+  .search-bar-input input[type="text"] {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .search-bar-input input:focus {
+    outline: none;
+  }
+
+  .box.banana_map {
+    color: #fff;
+    background: #eff4f7;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .box.banana_map .title {
+    padding-top: 40px;
+    padding-left: 25px;
+    font-size: 16px;
+  }
+
+  .box.banana_map .subtitle {
+    font-weight: 700;
+    padding-top: 10px;
+    padding-left: 25px;
+    font-size: 22px;
+  }
+
+  .box {
+    max-height: 444px;
+  }
+
+  .box .banana {
+    min-height: 404px;
+    background-image: url('img/banana.png');
+    background-size: cover;
+  }
+
+  .box .map {
+    min-height: 404px;
+    background-image: url('img/map.png');
+    background-size: cover;
+  }
+
+  .box .cog-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 55px;
+    top: 25px;
+    z-index: 10;
+  }
+
+  @media screen and (max-width:760px) {
+    #topnav {
+      flex-wrap: wrap;
+    }
+
+    .admin-menu {
+      flex-basis: 20%;
+    }
+
+    .logo {
+      justify-content: flex-end;
+      padding-right: 10px;
+    }
+
+    .logo {
+      flex-basis: 80%;
+    }
+
+    .topnav-rightmenu,
+    .search-bar {
+      display: none;
+    }
+  }
+
+  .box {
+    box-shadow: 0px 1px 22px -12px #607D8B;
+    background-color: #fff;
+    padding: 25px 35px 25px 30px;
+  }
+
+  #monthly-earnings-chart #apexcharts-canvas {
+    position: relative;
+  }
+
+  #monthly-earnings-chart #apexcharts-canvas:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 58%;
+    top: 0;
+    bottom: 0;
+    background: #24bdd3;
+    opacity: 0.65;
+  }
+
+  #monthly-earnings-chart #apexcharts-title-text {
+    font-weight: 600;
+  }
+
+  #monthly-earnings-chart #apexcharts-subtitle-text {
+    font-weight: 700;
+  }
+
+  .monthly-earnings-text {
+    position: absolute;
+    left: 70px;
+    top: 187px;
+    color: #fff;
+    z-index: 10;
+  }
+
+  .monthly-earnings-text h6 {
+    font-size: 16px;
+  }
+
+  .chart-title h5 {
+    font-size: 18px;
+    color: rgba(51, 51, 51, 1);
+    margin-bottom: 38px;
+  }
+
+
+  @media screen and (max-width:760px) {
+    .monthly-earnings-text {
+      left: 30px;
+    }
+
+    .box {
+      padding: 25px 0;
+    }
+  }
+
+  .sparkboxes .box {
+    padding: 3px 0 0 0;
+    position: relative;
+  }
+
+  #spark1,
+  #spark2,
+  #spark3,
+  #spark4 {
+    position: relative;
+    padding-top: 15px;
+  }
+
+
+  /* overrides */
+  .sparkboxes #apexcharts-subtitle-text {
+    fill: #8799a2 !important;
+  }
+
+
+  .spinner-border {
+    display: none;
+  }
+</style>
 
 <body>
-  <div style="width: 500px;" id="chart">
-  </div>
+  <div class="content-area">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="d-flex col-6 justify-content-center">
+          <div class="row mt-3 mb-3">
+            <div class="col-12 mt-4 mb-4">
+              <div class="box box1">
+                <div id="spark"></div>
+              </div>
+            </div>
+            <div class="col-12 mt-4 mb-4">
+              <div class="table">
+                <div class="text">
+                  <h4><strong>Listado de Empleados</strong></h4>
+                </div>
+      
+                <div class="table-information">
+                  <table class="table-bordered table-spaced table-shadow" id="cargos">
+                    <thead>
+      
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Cargo</th>
+                        <th>Accesos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% empleados.forEach(function(empleado) { %>
+                        <tr>
+                          <td>
+                            <%= empleado.empleado_id %>
+                          </td>
+                          <td>
+                            <%= empleado.nombre %>
+                          </td>
+                          <td>
+                            <%= empleado.apellido %>
+                          </td>
+                          <td>
+                            <%= empleado.cargo %>
+                          </td>
+                          <td>
+                            <%= empleado.acceso %>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="col-6">
+          <div class="row mt-3 mb-3">
+            <div class="col-12  mt-4 mb-4">
+              <div class="box">
+                <div id="chart"></div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="box">
+                <div id="donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
   <script src="/public/js/apexcharts.js"></script>
+  <script src="/public/js/jquery-3.7.1.min.js"></script>
+  <script src="/public/js/dataTables.min.js"></script>
+  <script src="/public/js/jquery-confirm/jquery-confirm.min.js"></script>
+  <script src="/public/js/script.js"></script>
   <script>
-    var options = {
-          series: [{
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100]
-        }, {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }],
+
+    var colorPalette = ['#01BFD6', '#5564BE', '#F74F58', '#EDCD24', '#F7A600'];
+    fetch(`/access/employee/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+    })
+      .then(response => response.json())
+      .then(datos => {
+        const resultados = {};
+        let fecha = [];
+
+        datos.forEach(dato => {
+          const nombre = dato.Nombre;
+          const cantidadPorDia = dato["Cantidad por dia"];
+
+          if (!resultados[nombre]) {
+            resultados[nombre] = { name: nombre, data: [] };
+          }
+
+          resultados[nombre].data.push(cantidadPorDia);
+          fecha.push(dato.Fecha);
+        });
+
+        // Convertir el objeto a un array de valores
+        const series = Object.values(resultados);
+        var options = {
+          series:
+            series
+          ,
           chart: {
-          height: 350,
-          type: 'area'
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-        },
-        tooltip: {
-          x: {
-            format: 'dd/MM/yy HH:mm'
+            height: 200,
+            type: 'area'
           },
-        },
+          dataLabels: {
+            enabled: false
+          },
+          colors: colorPalette,
+          stroke: {
+            curve: 'smooth'
+          },
+          xaxis: {
+            type: 'datetime',
+            categories: fecha,
+          },
+          tooltip: {
+            x: {
+              format: 'dd/MM/yy'
+            },
+          },
+          title: {
+            text: 'Accesos por empleados',
+            align: 'left',
+            style: {
+              fontSize: '18px'
+            }
+          }
+
         };
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
+      })
+      .catch(error => {
+        // Manejar errores de red u otros errores
+        console.error('Error de red:', error);
+      });
+
+    fetch(`/access/json/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+    })
+      .then(response => response.json())
+      .then(datos => {
+        let resultados = [];
+        let fecha = [];
+
+        datos.forEach(dato => {
+          const fech = dato.Fecha;
+          const cantidadPorDia = dato["Cantidad por dia"];
+          resultados.push(cantidadPorDia);
+          fecha.push(fech);
+        });
+        var spark3 = {
+          chart: {
+            id: 'sparkline3',
+            group: 'sparklines',
+            type: 'area',
+            height: 140,
+            sparkline: {
+              enabled: true
+            },
+          },
+          stroke: {
+            curve: 'straight'
+          },
+          fill: {
+            opacity: 1,
+          },
+          series: [{
+            name: 'Profits',
+            data: resultados
+          }],
+          labels: fecha,
+          xaxis: {
+            type: 'datetime',
+          },
+          yaxis: {
+            min: 0
+          },
+          colors: ['#DCE6EC'],
+          title: {
+            text: resultados.reduce((total, valor) => total + valor, 0),
+            offsetX: 30,
+            style: {
+              fontSize: '24px',
+              cssClass: 'apexcharts-yaxis-title'
+            }
+          },
+          subtitle: {
+            text: 'Total de Accesos',
+            offsetX: 30,
+            style: {
+              fontSize: '14px',
+              cssClass: 'apexcharts-yaxis-title'
+            }
+          }
+        }
+
+        new ApexCharts(document.querySelector("#spark"), spark3).render();
+      })
+      .catch(error => {
+        // Manejar errores de red u otros errores
+        console.error('Error de red:', error);
+      });
+
+    fetch(`/access/position`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+    })
+      .then(response => response.json())
+      .then(datos => {
+        let resultados = [];
+        let cargo = [];
+
+        datos.forEach(dato => {
+          const fech = dato.cargo;
+          const cantidadPorDia = dato["Cantidad por dia"];
+          resultados.push(cantidadPorDia);
+          cargo.push(fech);
+        });
+        // the default colorPalette for this dashboard
+        //var colorPalette = ['#00D8B6', '#008FFB', '#FEB019', '#FF4560', '#775DD0']
+
+        var optionDonut = {
+          chart: {
+            type: 'donut',
+            width: '100%',
+            height: 190,
+            width: 440
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          plotOptions: {
+            pie: {
+              customScale: 0.8,
+              donut: {
+                size: '75%',
+              },
+              offsetY: 20,
+            },
+            stroke: {
+              colors: undefined
+            }
+          },
+          colors: colorPalette,
+          title: {
+            text: 'Acceso por Cargos',
+            style: {
+              fontSize: '18px'
+            }
+          },
+          series: resultados,
+          labels: cargo,
+          legend: {
+            position: 'left',
+            offsetY: 80
+          }
+        }
+
+        new ApexCharts(document.querySelector("#donut"), optionDonut).render();
+
+      })
+      .catch(error => {
+        // Manejar errores de red u otros errores
+        console.error('Error de red:', error);
+      });
+
   </script>
 </body>
 

@@ -1,4 +1,4 @@
-import { obtenerEmpleados, actualizarEmpleado, eliminarEmpleado, getById, crearEmpleadoYUsuario } from "../models/employee.js";
+import { obtenerEmpleados, actualizarEmpleado, eliminarEmpleado, getById, crearEmpleadoYUsuario, obtenerAccesosEmpleados, obtenerAccesosTotales, obtenerAccesosCargos, obtenerAccesosCargosEmpleados } from "../models/employee.js";
 
 export const homehtml = async (req, res) => {
     const data = await obtenerEmpleados();
@@ -7,8 +7,43 @@ export const homehtml = async (req, res) => {
 
 }
 
-export const renderdashboard = (req, res) => {
-    res.render("dashboard");
+export const obtenerAccesosEmpleadosjson = async (req, res) => {
+    try {
+        const data = await obtenerAccesosEmpleados();
+        res.status(200).json(JSON.parse(data));
+    } catch (error) {
+        console.error('Error al eliminar empleado:', error.message);
+        res.status(500).json({ mensaje: 'Error al eliminar empleado' });
+    }
+
+}
+
+export const obtenerAccesostotalesjson = async (req, res) => {
+    try {
+        const data = await obtenerAccesosTotales();
+        res.status(200).json(JSON.parse(data));
+    } catch (error) {
+        console.error('Error al eliminar empleado:', error.message);
+        res.status(500).json({ mensaje: 'Error al eliminar empleado' });
+    }
+
+}
+
+export const obtenerAccesosCargosjson = async (req, res) => {
+    try {
+        const data = await obtenerAccesosCargos();
+        res.status(200).json(JSON.parse(data));
+    } catch (error) {
+        console.error('Error al eliminar empleado:', error.message);
+        res.status(500).json({ mensaje: 'Error al eliminar empleado' });
+    }
+
+}
+
+export const renderdashboard = async (req, res) => {
+    const data = await obtenerAccesosCargosEmpleados();
+    const empleados = JSON.parse(data);
+    res.render("dashboard",  {empleados});
 };
 
 // Controlador

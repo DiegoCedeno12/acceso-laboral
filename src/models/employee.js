@@ -111,3 +111,105 @@ export async function eliminarEmpleado(id) {
     });
   });
 }
+
+export async function obtenerAccesosEmpleados() {
+  return new Promise((resolve, reject) => {
+    const sql = `
+    SELECT
+    CONCAT(u.nombre, ' ', u.apellido) AS "Nombre",
+    CAST(a.fecha_hora AS DATETIME) AS "Fecha",
+    COUNT(*) AS "Cantidad por dia"
+    FROM
+        empleado u
+    INNER JOIN
+        acceso a ON u.empleado_id = a.empleado_id
+    GROUP BY
+        u.empleado_id, DATE(a.fecha_hora)
+    ORDER BY
+        u.empleado_id, DATE(a.fecha_hora);
+    `;
+    conexion.query(sql, (error, resultados) => {
+      if (error) {
+        reject({ mensaje: 'No se pueden obtener los empleados' });
+      } else {
+        resolve(JSON.stringify(resultados));
+      }
+    });
+  });
+}
+
+export async function obtenerAccesosTotales() {
+  return new Promise((resolve, reject) => {
+    const sql = `
+    SELECT
+    CAST(fecha_hora AS DATETIME) AS "Fecha",
+    COUNT(*) AS "Cantidad por dia"
+    FROM
+        acceso
+    GROUP BY
+        DATE(fecha_hora)
+    ORDER BY
+        DATE(fecha_hora);
+    `;
+    conexion.query(sql, (error, resultados) => {
+      if (error) {
+        reject({ mensaje: 'No se pueden obtener los empleados' });
+      } else {
+        resolve(JSON.stringify(resultados));
+      }
+    });
+  });
+}
+
+export async function obtenerAccesosCargos() {
+  return new Promise((resolve, reject) => {
+    const sql = `
+    SELECT
+    u.cargo,
+    COUNT(*) AS "Cantidad por dia"
+    FROM
+        empleado u
+    INNER JOIN
+        acceso a ON u.empleado_id = a.empleado_id
+    GROUP BY
+        u.cargo
+    ORDER BY
+        u.cargo;
+    `;
+    conexion.query(sql, (error, resultados) => {
+      if (error) {
+        reject({ mensaje: 'No se pueden obtener los empleados' });
+      } else {
+        resolve(JSON.stringify(resultados));
+      }
+    });
+  });
+}
+
+export async function obtenerAccesosCargosEmpleados() {
+  return new Promise((resolve, reject) => {
+    const sql = `
+    SELECT
+    u.empleado_id,
+    u.nombre,
+    u.apellido,
+    u.cargo,
+    COUNT(*) AS "acceso"
+    FROM
+        empleado u
+    INNER JOIN
+        acceso a ON u.empleado_id = a.empleado_id
+    GROUP BY
+        u.empleado_id
+    ORDER BY
+        u.empleado_id;
+    `;
+    conexion.query(sql, (error, resultados) => {
+      if (error) {
+        reject({ mensaje: 'No se pueden obtener los empleados' });
+      } else {
+        resolve(JSON.stringify(resultados));
+      }
+    });
+  });
+}
